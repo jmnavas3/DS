@@ -1,1 +1,1 @@
-enum EstadoRopa{nuevo, desgastado, roto, normal}
+enum EstadoRopa{nuevo, desgastado, roto, normal, nulo}

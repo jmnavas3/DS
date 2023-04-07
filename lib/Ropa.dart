@@ -9,6 +9,29 @@ class Ropa {
   late TipoRopa _tipo;
   late EstadoRopa _estado;
 
+  // constructor fromJson
+  Ropa.fromJson( Map<String, dynamic> json) {
+    _nombre         = json['nombre'];
+    _descripcion    = json['descripcion'];
+    _precio         = json['precio'];
+    _distancia_comp = json['distancia'];
+    _tipo           = setTipoJson(json['tipo']);
+    _estado         = setEstadoJson(json['estado']);
+  }
+
+  // toJson
+  Map<String, dynamic> toJson ( ) => {
+    'nombre' : _nombre,
+    'descripcion' : _descripcion,
+    'precio' : _precio,
+    'distancia' : _distancia_comp,
+    'tipo' : tipoRopa,
+    'estado' : estadoRopa
+  };
+
+  // Pasar de enum a String
+  String enumToString (var value) => value.toString().split('.').last;
+
   // getters
   String get nombre => _nombre;
   String get descripcion => _descripcion;
@@ -29,10 +52,29 @@ class Ropa {
   set tipo(TipoRopa value) => _tipo = value;
   set estado(EstadoRopa value) => _estado = value;
 
+  TipoRopa setTipoJson(String value) {
+    TipoRopa nuevoTipo = TipoRopa.nulo;
+    for (TipoRopa prenda in TipoRopa.values) {
+      if (value == enumToString(prenda)) {
+        nuevoTipo = prenda;
+      }
+    }
+    return nuevoTipo;
+  }
+
+  EstadoRopa setEstadoJson(String value) {
+    EstadoRopa nuevoEstado = EstadoRopa.nulo;
+    for (EstadoRopa estado in EstadoRopa.values) {
+      if (value == enumToString(estado)) {
+        nuevoEstado = estado;
+      }
+    }
+    return nuevoEstado;
+  }
   //Print
   @override
   String toString() =>
-      "- $nombre ($precio):\n$descripcion\n"
+      "- $nombre ($precioString):\n$descripcion\n"
           "Tipo: $tipoRopa. Estado: $estadoRopa. Distancia: $distancia_comp km de ti.\n";
 
 }

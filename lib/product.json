@@ -1,0 +1,18 @@
+[
+  {
+    "nombre": "Vaqueros springfield",
+    "descripcion": "Pantalones bastante modernos",
+    "precio": 30,
+    "distancia": 10,
+    "tipo": "vaqueros",
+    "estado": "nuevo"
+  },
+  {
+    "nombre": "Camisa zara",
+    "descripcion": "Camisa manga corta y cuello de pico",
+    "precio": 10,
+    "distancia": 15,
+    "tipo": "camisa",
+    "estado": "desgastado"
+  }
+]

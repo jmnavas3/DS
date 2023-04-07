@@ -14,80 +14,61 @@ import 'FiltroPrecio.dart';
 import 'FiltroTipo.dart';
 import 'Supervisor.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 
 
-void main() {
-  runApp(MyApp());
+Future<String> cargarJson() async {
+  final String response = await rootBundle.loadString('lib/product.json');
+  //final data = await json.decode(response);
+
+  return response;
+}
+
+void main() async {
+  runApp(const MyApp());
+  // cargar JSON
+  final List<dynamic> data = jsonDecode(await cargarJson());
+  List<Ropa> catalogoInicial = [];
+  // añadir JSON a catalogo inicial y mostrar productos
+  for(var producto in data) {
+    catalogoInicial.add(Ropa.fromJson(producto));
+    print(catalogoInicial.last);
+  }
+
+  // Patrones MVC y Filtros de intercepción
+
+
 }
 
 
 
 class MyApp extends StatelessWidget {
-  Actualizador? _act;
-  Supervisor?   _sup;
+  const MyApp({Key? key}) : super(key: key);
 
-  MyApp(Actualizador act, Supervisor sup, {Key? key}) :
+  // Actualizador? _act;
+  // Supervisor?   _sup;
+
+  /*MyApp(Actualizador act, Supervisor sup, {Key? key}) :
       _act = act,
       _sup = sup,
-      super(key: key);
-
+      super(key: key);*/
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Json sample',
       theme: ThemeData(
         // This is the theme of your application.
         primarySwatch: Colors.red,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Home Page'),
     );
   }
 }
 
-
-class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({super.key});
-
-  @override
-  State<MyStatefulWidget> createState() => _MyStatefulWidget();
-}
-
-
-class _MyStatefulWidget extends State<MyStatefulWidget> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  @override
-  Widget build (BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration( hintText: 'Introducir ropa'),
-            validator: (String? value) {
-              if(value==null || value.isEmpty) return 'No has escrito nada';
-              return null;
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
-              child: const Text('Confirmar'),
-              onPressed: () {
-                if(_formKey.currentState!.validate()){
-                  // ENVIAR A CONTROLADOR
-                }
-              },
-            )
-          )
-        ],
-      ),
-    );
-  }
-}
 
 
 // Aplicación Básica de Flutter
@@ -110,6 +91,17 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  List _items = [];
+
+  // fetch content from the json File
+  // source: https://stackoverflow.com/questions/71294190/how-to-read-local-json-file-in-flutter
+  Future<void> readJson() async {
+    final String response = await rootBundle.loadString('lib/product.json');
+    final data = await json.decode(response);
+    setState(() {
+      _items = data;
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -132,11 +124,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(25),
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -156,6 +150,25 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            // JSON
+            ElevatedButton(onPressed: readJson, child: const Text('Cargar Archivo')),
+            _items.isNotEmpty? Expanded(
+                child: ListView.builder(
+                    itemCount: _items.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        margin: const EdgeInsets.all(10),
+                        child: ListTile(
+                          leading: Text("${_items[index]["precio"]} €"),
+                          title: Text(_items[index]["nombre"]),
+                          subtitle: Text(_items[index]["descripcion"]),
+                        ),
+                      );
+                    },
+                ),
+            )
+            : Container(),
+            // DEFAULT
             const Text(
               'You have clicked the plus button this many times:',
             ),
@@ -171,6 +184,49 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+// PRUEBA
+// STATEFUL --> State<STATEFUL>
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({super.key});
+
+  @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidget();
+}
+
+class _MyStatefulWidget extends State<MyStatefulWidget> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build (BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          TextFormField(
+            decoration: const InputDecoration( hintText: 'Introducir ropa'),
+            validator: (String? value) {
+              if(value==null || value.isEmpty) return 'No has escrito nada';
+              return null;
+            },
+          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ElevatedButton(
+                child: const Text('Confirmar'),
+                onPressed: () {
+                  if(_formKey.currentState!.validate()){
+                    // ENVIAR A CONTROLADOR
+                  }
+                },
+              )
+          )
+        ],
+      ),
     );
   }
 }
