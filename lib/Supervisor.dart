@@ -21,7 +21,7 @@ class Supervisor {
   }
 
   // modifica un único filtro
-  void modificarFiltro(int index, List<int> lista){
+  void modificarFiltro(int index, var lista){
     //index: 0 Precio, 1 Distancia, 2 Estado, 3 Tipo
     if(index < _numFiltros) {
       matrizFiltros[index] = lista;

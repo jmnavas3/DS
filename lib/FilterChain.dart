@@ -5,7 +5,7 @@ import 'Ropa.dart';
 
 class FilterChain {
   Target _target = Target();
-  var filterList = List<Filter>.empty();
+  List<Filter> filterList = [];
 
 
   set setTarget(Target target) => _target = target;
@@ -21,6 +21,7 @@ class FilterChain {
     // Ejecutar Filtros de la cadena
     for (Filter f in filterList) {
       if(valoresFiltros[i][0] != -1) {
+        print("aplicando filtro...");
         ropaFiltrada = f.execute(ropaFiltrada, valoresFiltros[i]);
       }
       i++;

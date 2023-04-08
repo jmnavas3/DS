@@ -13,7 +13,7 @@ class FilterManager {
   }
 
   FilterManager.constructor(Target target){
-    FilterManager();
+    _filterChain = FilterChain();
     _filterChain.setTarget = target;
   }
 

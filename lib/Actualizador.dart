@@ -13,9 +13,13 @@ class Actualizador {
     _catalogoFinal=catalogoInicial;
   }
 
+  set target(Target target) => _target = target;
+
   void actualizarProductos() {
     if (_target!.catalogoFinal.isNotEmpty) {
       _catalogoFinal = _target!.catalogoFinal;
+    }else{
+      print("no se han encontrado productos");
     }
   }
 

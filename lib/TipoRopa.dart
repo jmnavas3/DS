@@ -1,1 +1,1 @@
-enum TipoRopa{camiseta, chaqueta, camisa, vaqueros, zapatillas, botas, sobrecamisa, vestido, falda, nulo}
+enum TipoRopa{camiseta, chaqueta, camisa, vaqueros, zapatillas, botas, sobrecamisa, vestido, falda}

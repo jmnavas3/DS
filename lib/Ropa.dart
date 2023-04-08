@@ -30,6 +30,12 @@ class Ropa {
   };
 
   // Pasar de enum a String
+  static List<String> listaRopa(){
+    List<String> listado = [];
+    for (var element in TipoRopa.values) { listado.add(enumAString(element)); }
+    return listado;
+  }
+  static String enumAString (var value) => value.toString().split('.').last;
   String enumToString (var value) => value.toString().split('.').last;
 
   // getters
@@ -53,7 +59,7 @@ class Ropa {
   set estado(EstadoRopa value) => _estado = value;
 
   TipoRopa setTipoJson(String value) {
-    TipoRopa nuevoTipo = TipoRopa.nulo;
+    TipoRopa nuevoTipo = TipoRopa.botas;
     for (TipoRopa prenda in TipoRopa.values) {
       if (value == enumToString(prenda)) {
         nuevoTipo = prenda;
