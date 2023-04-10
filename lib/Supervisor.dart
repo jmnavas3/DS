@@ -1,3 +1,5 @@
+import 'package:flutter_taller/TipoRopa.dart';
+
 import 'Cliente.dart';
 import 'Ropa.dart';
 
@@ -6,7 +8,7 @@ class Supervisor {
   final           _numFiltros = 4;
   late Cliente    _cliente;               // late indica que se inicializará después
   List<Ropa>      _catalogoInicial = [];
-  List<List<int>> matrizFiltros = [];    // guarda arrays de filtros
+  List<List<dynamic>> matrizFiltros = [];    // guarda arrays de filtros
 
   // getter
   List<Ropa> get catalogoInicial => _catalogoInicial;

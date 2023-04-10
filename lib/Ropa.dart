@@ -35,6 +35,13 @@ class Ropa {
     for (var element in TipoRopa.values) { listado.add(enumAString(element)); }
     return listado;
   }
+
+  static List<String> listaEstado(){
+    List<String> listado = [];
+    for (var element in EstadoRopa.values) { listado.add(enumAString(element)); }
+    return listado;
+  }
+
   static String enumAString (var value) => value.toString().split('.').last;
   String enumToString (var value) => value.toString().split('.').last;
 

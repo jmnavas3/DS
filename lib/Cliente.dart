@@ -6,7 +6,7 @@ class Cliente {
 
   void set setGestorFiltros(FilterManager value) => _gestor = value;
 
-  List<Ropa> buscarProducto(List<Ropa> productos, List<List<int>> valoresFiltros) =>
+  List<Ropa> buscarProducto(List<Ropa> productos, List<List<dynamic>> valoresFiltros) =>
     _gestor.filterRequest(productos, valoresFiltros);
 
 }

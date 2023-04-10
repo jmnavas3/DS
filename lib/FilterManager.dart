@@ -17,7 +17,7 @@ class FilterManager {
     _filterChain.setTarget = target;
   }
 
-  List<Ropa> filterRequest(List<Ropa> productos, List<List<int>> valoresFiltro) =>
+  List<Ropa> filterRequest(List<Ropa> productos, List<List<dynamic>> valoresFiltro) =>
     _filterChain.execute(productos, valoresFiltro);
 
   set setFilter (Filter f) => _filterChain.addFilter(f);

@@ -7,9 +7,10 @@ class FiltroTipo extends Filter{
   @override
   List<Ropa> execute(List<Ropa> ropa, var valores) {
     List<Ropa> result = [];
+    List<TipoRopa> tipos = TipoRopa.values;
     for (var rop in ropa) {
-      for(TipoRopa tipo in valores){
-        if(rop.tipo == tipo){
+      for(int tipo in valores){
+        if(rop.tipo == tipos[tipo]){
           result.add(rop);
         }
       }

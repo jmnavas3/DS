@@ -64,7 +64,6 @@ class MyApp extends StatelessWidget {
   Supervisor _controlador;
   Actualizador _vista;
 
-  //const MyApp({Key? key}) : super(key: key);
   // CONSTRUCTOR
   MyApp(Actualizador v, Supervisor c, {Key? key}) :
       _vista = v,
@@ -105,18 +104,18 @@ class MyShopPage extends StatefulWidget {
 
 class _MyShopPageSate extends State<MyShopPage> {
   int _precioActual = 0, _distActual = 0;
-  String? _tipo = 'Ninguno';
+  String? _tipo = null, _estado = null;
   final _tiposProductos = Ropa.listaRopa();
-  List <bool> _estadosSelec = List.generate(4, (_) => false);
+  final _estadosProductos = Ropa.listaEstado();
 
   // MÉTODOS PARA SELECCIONAR Y MODIFICAR FILTROS
    // 0 PRECIO, 1 DISTANCIA
   void _selecPrecioDist (int index) {
     int valorFiltro;
     if (index==0) {
-      valorFiltro = _distActual==0 ? -1 : _distActual;
-    } else {
       valorFiltro = _precioActual==0 ? -1 : _precioActual;
+    } else {
+      valorFiltro = _distActual==0 ? -1 : _distActual;
     }
     widget._controlador.modificarFiltro(index, [valorFiltro]);
   }
@@ -124,9 +123,10 @@ class _MyShopPageSate extends State<MyShopPage> {
   void _selecEstadoTipo (int index) {
     int i = 0;
     var filtro = index==3 ? TipoRopa.values : EstadoRopa.values;
-    print (_tipo);
+    var value  = index==3 ? _tipo : _estado;
+
     for (var prenda in filtro) {
-      if ( _tipo == Ropa.enumAString(prenda) ) {
+      if ( value == Ropa.enumAString(prenda) ) {
         widget._controlador.modificarFiltro(index, [i]);
       }
       i++;
@@ -173,7 +173,7 @@ class _MyShopPageSate extends State<MyShopPage> {
                 child: Column(
                   children: <Widget>[
 
-                    const Text("Precio: "),
+                    const Text("Precio menor que: "),
                     Slider(
                       key: const Key ('filtroPrecio'),
                       min: 0,
@@ -186,7 +186,7 @@ class _MyShopPageSate extends State<MyShopPage> {
                       },
                     ),
 
-                    const Text("Distancia: "),
+                    const Text("Distancia menor que: "),
                     Slider(
                       key: const Key('filtroDistancia'),
                       min: 0, max: 100, divisions: 10,
@@ -197,9 +197,23 @@ class _MyShopPageSate extends State<MyShopPage> {
                       },
                     ),
 
+                    const Text("Estado nuevo: "),
+                    DropdownButton(
+                      value: _estado,
+                      items: _estadosProductos.map((String items) {
+                        return DropdownMenuItem(
+                            value: items,
+                            child: Text(items)
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState( () => _estado=value );
+                      },
+                    ),
+
                     const Text("Tipo: "),
                     DropdownButton(
-                      value: null,
+                      value: _tipo,
                       items: _tiposProductos.map((String items) {
                         return DropdownMenuItem(
                             value: items,
@@ -209,23 +223,6 @@ class _MyShopPageSate extends State<MyShopPage> {
                       onChanged: (value) {
                         setState( () => _tipo=value );
                       },
-                    ),
-
-                    const Text("Estado: "),
-                    ToggleButtons(
-                      borderRadius: BorderRadius.circular(10),
-                      borderWidth: 3,
-                      borderColor: const Color(0xFF939393),
-                      isSelected: _estadosSelec,
-                      onPressed: (int i) {
-                        setState( () => _estadosSelec[i]= !_estadosSelec[i] );
-                      },
-                      children: const<Widget>[
-                        Text('Nuevo'),
-                        Text('Desgastado'),
-                        Text('Roto'),
-                        Text('Normal'),
-                      ],
                     ),
 
                     SizedBox(
