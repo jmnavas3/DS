@@ -20,6 +20,7 @@ class Actualizador {
       _catalogoFinal = _target!.catalogoFinal;
     }else{
       print("no se han encontrado productos");
+      _catalogoFinal = [];
     }
   }
 

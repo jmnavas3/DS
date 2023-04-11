@@ -14,5 +14,21 @@
     "distancia": 15,
     "tipo": "camisa",
     "estado": "desgastado"
+  },
+  {
+    "nombre": "Zapatillas Nike",
+    "descripcion": "Disponibles en varios colores",
+    "precio": 80,
+    "distancia": 35,
+    "tipo": "zapatillas",
+    "estado": "nuevo"
+  },
+  {
+    "nombre": "Botas de cuero",
+    "descripcion": "Botas de cuero sintetico negras",
+    "precio": 50,
+    "distancia": 5,
+    "tipo": "botas",
+    "estado": "roto"
   }
 ]
