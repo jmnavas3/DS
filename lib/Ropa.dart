@@ -9,6 +9,9 @@ class Ropa {
   late TipoRopa _tipo;
   late EstadoRopa _estado;
 
+  // constructor por defecto
+  Ropa(this._nombre, this._descripcion, this._precio, this._distancia_comp, this._tipo, this._estado);
+
   // constructor fromJson
   Ropa.fromJson( Map<String, dynamic> json) {
     _nombre         = json['nombre'];

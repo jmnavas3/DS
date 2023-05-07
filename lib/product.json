@@ -2,32 +2,32 @@
   {
     "nombre": "Vaqueros springfield",
     "descripcion": "Pantalones bastante modernos",
-    "precio": 30,
-    "distancia": 10,
+    "precio": 30.0,
+    "distancia": 10.0,
     "tipo": "vaqueros",
     "estado": "nuevo"
   },
   {
     "nombre": "Camisa zara",
     "descripcion": "Camisa manga corta y cuello de pico",
-    "precio": 10,
-    "distancia": 15,
+    "precio": 10.0,
+    "distancia": 15.0,
     "tipo": "camisa",
     "estado": "desgastado"
   },
   {
     "nombre": "Zapatillas Nike",
     "descripcion": "Disponibles en varios colores",
-    "precio": 80,
-    "distancia": 35,
+    "precio": 80.0,
+    "distancia": 35.0,
     "tipo": "zapatillas",
     "estado": "nuevo"
   },
   {
     "nombre": "Botas de cuero",
     "descripcion": "Botas de cuero sintetico negras",
-    "precio": 50,
-    "distancia": 5,
+    "precio": 50.0,
+    "distancia": 5.0,
     "tipo": "botas",
     "estado": "roto"
   }
