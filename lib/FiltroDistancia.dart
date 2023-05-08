@@ -24,4 +24,23 @@ class FiltroDistancia extends Filter{
     return result;
   }
 
+  @override
+  List<Ropa> filtrar(List<Ropa> ropa, var valor) {
+    List<Ropa> result = [];
+    try {
+      // comprobamos que sea estrictamente un double
+      assert(valor.runtimeType==double);
+      for (var prenda in ropa) {
+        if (prenda.distancia_comp <= valor) {
+          result.add(prenda);
+        }
+      }
+    } catch (e) {
+      result = ropa;
+      result.add(ropa.last);
+      print("Error: $e");
+    }
+
+    return result;
+  }
 }

@@ -14,4 +14,24 @@ class FiltroPrecio extends Filter{
     return result;
   }
 
+  @override
+  List<Ropa> filtrar(List<Ropa> ropa, var valor) { // valor: double
+    List<Ropa> result = [];
+    try {
+      // comprobamos que sea estrictamente un double
+      assert(valor.runtimeType==double);
+      for (var prenda in ropa) {
+        if (prenda.precio <= valor) {
+          result.add(prenda);
+        }
+      }
+    } catch (e) {
+      result = ropa;
+      result.add(ropa.last);
+      print("Error: $e");
+    }
+
+    return result;
+  }
+
 }

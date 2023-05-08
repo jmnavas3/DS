@@ -8,12 +8,14 @@ import 'package:flutter_taller/Ropa.dart';
 // necesario para cargar el json
 import 'package:flutter/services.dart';
 
+/// Carga el archivo de productos json
 Future<List<dynamic>> cargarJson() async {
   final String response = await rootBundle.loadString('lib/product.json');
   final data = await jsonDecode(response);
   return data;
 }
 
+/// Carga el catálogo inicial
 Future<List<Ropa>> cargarProductos() async {
   List<Ropa> productos = [];
   final List<dynamic> data = await cargarJson();
@@ -24,8 +26,9 @@ Future<List<Ropa>> cargarProductos() async {
   return productos;
 }
 
+/// Grupos de pruebas del catálogo y de la ropa
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // IMPORTANTE PARA QUE NO DE ERROR
+  WidgetsFlutterBinding.ensureInitialized(); // IMPORTANTE PARA EL ARCHIVO JSON
   List<Ropa> catalogo = await cargarProductos();
 
   group('Gestión de Catálogo', () {

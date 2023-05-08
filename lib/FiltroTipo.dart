@@ -19,4 +19,24 @@ class FiltroTipo extends Filter{
     return result;
   }
 
+  @override
+  List<Ropa> filtrar(List<Ropa> ropa, var valor) {
+    List<Ropa> result = [];
+    try {
+      // comprobamos que sea estrictamente un double
+      assert(valor.runtimeType==TipoRopa);
+      for (var prenda in ropa) {
+        if (prenda.tipo == valor) {
+          result.add(prenda);
+        }
+      }
+    } catch (e) {
+      result = ropa;
+      result.add(ropa.last);
+      print("Error: $e");
+    }
+
+    return result;
+  }
+
 }
