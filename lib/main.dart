@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-import 'package:flutter_taller/Actualizador.dart';
+import 'Actualizador.dart';
 import 'Ropa.dart';
 import 'TipoRopa.dart';
 import 'EstadoRopa.dart';
@@ -14,6 +14,7 @@ import 'FiltroTipo.dart';
 import 'Supervisor.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+
 
 
 Future<String> cargarJson() async {

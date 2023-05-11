@@ -6,25 +6,62 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_taller/myLib.dart';
+import 'dart:convert';
 
 import 'package:flutter_taller/main.dart';
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+Future<String> cargarJson() async {
+  final String response = await rootBundle.loadString('lib/product.json');
+  //final data = await json.decode(response);
+  return response;
+}
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+void main() async {
+  // MVC y FILTROS DE INTERCEPCIÓN
+  Cliente cliente = Cliente();
+  Target target = Target();
+  FilterManager gestor = FilterManager.constructor(target);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  gestor.setFilter = FiltroPrecio();
+  gestor.setFilter = FiltroDistancia();
+  gestor.setFilter = FiltroEstadoProducto();
+  gestor.setFilter = FiltroTipo();
+  cliente.setGestorFiltros = gestor;
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  // CATÁLOGOS
+  List<Ropa> catalogoInicial = [];
+
+  TestWidgetsFlutterBinding.ensureInitialized(); // IMPORTANTE PARA QUE NO DE ERROR
+  final List<dynamic> data = jsonDecode(await cargarJson());
+  for(var producto in data) {
+  catalogoInicial.add(Ropa.fromJson(producto));
+  }
+
+  Supervisor controlador = Supervisor(cliente, catalogoInicial);
+  Actualizador vista = Actualizador(target, catalogoInicial);
+
+  controlador.aplicarFiltros(catalogoInicial);
+
+  testWidgets('Comprar producto y volver a catalogo', (WidgetTester tester) async {
+    // definimos las dimensiones de la pantalla para que no haya ningún elemento oculto
+    tester.binding.window.physicalSizeTestValue = const Size(720,1080);
+    tester.binding.window.devicePixelRatioTestValue = 1.0;
+
+    await tester.pumpWidget(MyApp(vista, controlador));
+    final compras = find.text("Comprar producto");
+    expect(compras, findsNWidgets(catalogoInicial.length));
+
+    await tester.tap(find.byType(ElevatedButton).last);
+    await tester.pumpAndSettle();
+    final comprado = find.byType(ElevatedButton);
+    expect(comprado, findsOneWidget);
+
+    await tester.tap(comprado);
+    await tester.pumpAndSettle();
+    expect(compras, findsNWidgets(catalogoInicial.length));
+
   });
 }
