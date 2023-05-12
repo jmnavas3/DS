@@ -62,6 +62,22 @@ void main() async {
     await tester.tap(comprado);
     await tester.pumpAndSettle();
     expect(compras, findsNWidgets(catalogoInicial.length));
-
   });
+
+  testWidgets('Cambiar valor slider y comprobar productos', (WidgetTester tester) async {
+    // definimos las dimensiones de la pantalla para que no haya ningún elemento oculto
+    tester.binding.window.physicalSizeTestValue = const Size(720,1080);
+    tester.binding.window.devicePixelRatioTestValue = 1.0;
+
+    await tester.pumpWidget(MyApp(vista, controlador));
+    final precioSlider = find.byKey(ValueKey('filtroPrecio'));
+    await tester.drag(precioSlider, const Offset(-200, 0)); // Ajusto el precio a 20e
+    await tester.pumpAndSettle(); // aplicao el filtro
+
+    await tester.tap(find.byType(ElevatedButton).first);
+    await tester.pumpAndSettle();
+    final comprado = find.text("Comprar producto");
+    expect(comprado, findsOneWidget);
+  });
+
 }

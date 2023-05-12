@@ -51,7 +51,10 @@ class Actualizador {
               ropa.descripcion,
               style: const TextStyle( fontStyle: FontStyle.italic )
             ),
-            Text("Estado: ${ropa.estadoRopa}. Tipo:${ropa.tipoRopa}.")
+            Text("Estado"),
+            Text("${ropa.estadoRopa}"),
+            Text("Tipo:"),
+            Text("${ropa.tipoRopa}"),
           ],
         ),
       );
